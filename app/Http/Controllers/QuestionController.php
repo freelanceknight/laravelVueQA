@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -76,6 +80,7 @@ class QuestionController extends Controller
 
             abort(404,'Access Denied');
         }
+
         return view('questions.edit',compact('question'));
 
     }
@@ -92,7 +97,6 @@ class QuestionController extends Controller
         //
         //dd($request->all());
 
-
         $question->update($request->only('title','body'));
         return redirect()->route('questions.index')->with('success','Your Question has been Updated');
 
@@ -108,6 +112,7 @@ class QuestionController extends Controller
     {
         //
         //dd($question);
+//
         if(\Gate::denies('delete-question',$question)){
             abort(404,'Access Denied');
         }
