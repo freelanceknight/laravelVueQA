@@ -98,5 +98,8 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
+        //dd($question);
+        $question->delete();
+        return redirect()->route('questions.index')->with('success','Your Question has been Deleted');
     }
 }
